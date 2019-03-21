@@ -61,7 +61,6 @@ public class FixedSizeList<T> extends ListADT<T> {
 		if (fill >= array.length) {
 			throw new RanOutOfSpaceError();
 		}
-		// loop backwards, shifting items to the right.
 		for (int j=fill; j>index; j--) {
 			array[j] = array[j-1];
 		}
@@ -71,9 +70,7 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public void addFront(T value) {
-		// TODO Start here. Do we have to write this?
-		// Or can we use addIndex somehow?
-		throw new TODOErr();		
+		addIndex(0, value);		
 	}
 
 	@Override

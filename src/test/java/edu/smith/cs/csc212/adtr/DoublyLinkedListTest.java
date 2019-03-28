@@ -365,4 +365,5 @@ public class DoublyLinkedListTest {
 	public void testToJava() {
 		assertEquals(makeABCDList().toJava(), Arrays.asList("a", "b", "c", "d"));
 	}
+	
 }

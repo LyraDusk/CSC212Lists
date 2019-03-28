@@ -14,17 +14,67 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
-		throw new TODOErr();
+		Node<T> next = start.next;
+		T value = start.value;
+		this.start = next;
+		return value;
 	}
 
 	@Override
 	public T removeBack() {
-		throw new TODOErr();
+		checkNotEmpty();
+		T value = null;
+		int index = 0;
+		for(Node<T> n = this.start; n != null; n = n.next) {
+			if(n.next == null) {
+				value = n.value;
+				n = null;
+				break;
+			}
+			index++;
+		} 
+		int at = 0;
+		if(index != 0) {
+		for(Node<T> n = this.start; n != null; n = n.next) {
+			if (at == index - 1) {
+				n.next = null;
+			}
+			at++;
+		}
+		} else {
+			this.start = null;
+		}
+		return value;
 	}
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		checkNotEmpty();
+		T value = null;
+		Node<T> next = null;
+		if(index == 0) {
+			value = this.removeFront();
+			return value;
+		}
+		int at = 0;
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			if (at == index) {
+				value = n.value;
+				next = n.next;
+			}
+			at++;
+		}
+		at = 0;
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			at++;
+			if (at == index) {
+				n.next = next;
+			}
+		}
+		if(value != null) {
+		return value;
+		}
+		throw new BadIndexError(index);
 	}
 
 	@Override
@@ -34,12 +84,44 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addBack(T item) {
-		throw new TODOErr();
+		Node<T> node = new Node<T>(item, null);
+		if(this.isEmpty()) {
+			this.start = node;
+		} else {
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			if (n.next == null) {
+				n.next = node;
+				break;
+			}
+		}
+		}
+		
 	}
 
 	@Override
 	public void addIndex(int index, T item) {
-		throw new TODOErr();
+		if (this.isEmpty()) {
+			Node<T> node = new Node<T>(item,null);
+			this.start = node;
+		} else if (index > 0 && index <= this.size()) {
+			int at = 0;
+			Node<T> next = null;
+		
+			for (Node<T> n = this.start; n != null; n = n.next) {
+				if (at == index - 1) {
+					next = n.next;
+					Node<T> node = new Node<T>(item,next);
+					n.next = node;
+				}
+				at++;
+			}	
+		} else if (index == 0) {
+			this.addFront(item);
+		} else if (index == this.size()) {
+			this.addBack(item);
+		} else {
+			throw new BadIndexError(index);
+		}
 	}
 	
 	
@@ -47,13 +129,18 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T getFront() {
 		checkNotEmpty();
-		throw new TODOErr();
+		return start.value;
 	}
 
 	@Override
 	public T getBack() {
 		checkNotEmpty();
-		throw new TODOErr();
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			if (n.next == null) {
+				return n.value;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -72,7 +159,18 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void setIndex(int index, T value) {
 		checkNotEmpty();
-		throw new TODOErr();
+		int at = 0;
+		if (index < 0 || index > this.size()) {
+			throw new BadIndexError(index);
+		}
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			if (at == index) {
+				n.value = value;
+				return;
+			}
+			at++;
+		}
+		throw new BadIndexError(index);
 	}
 
 	@Override
